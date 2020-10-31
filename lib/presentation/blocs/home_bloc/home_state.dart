@@ -7,11 +7,10 @@ abstract class HomeState extends Equatable {
 }
 
 class MoviesInitial extends HomeState {
-  const MoviesInitial();
-
   @override
   // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
+  List<Object> get props => [];
+  
   
 }
 

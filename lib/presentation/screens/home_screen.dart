@@ -11,20 +11,11 @@ import '../../injection_container.dart';
 
 
 class HomeScreen extends StatefulWidget {
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-// @override
-// void didChangeDependencies() {
-
-//   _homeBloc = BlocProvider.of<HomeBloc>(context);
-
-// super.didChangeDependencies();
-// }
 
   @override
   Widget build(BuildContext context) {

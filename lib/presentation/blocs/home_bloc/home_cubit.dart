@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:prueba_gbp/domain/entities/movie_entity.dart';
@@ -33,7 +32,4 @@ class HomeCubit extends Cubit<HomeState> {
       print(e);
     }
   }  
-
-  
-
 }
