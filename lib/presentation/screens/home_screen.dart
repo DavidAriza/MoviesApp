@@ -100,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
+                SizedBox(height: 10),
                 BlocBuilder<HomeCubit, HomeState>(
                   builder: (_, currentState){
                     if(currentState is MoviesLoadingState) {
