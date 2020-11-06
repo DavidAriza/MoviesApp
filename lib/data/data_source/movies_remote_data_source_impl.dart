@@ -14,10 +14,7 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource  {
   String _apikey    = '71d3194808b3b21a0fdd706e7f52fb89';
   String _url       = 'api.themoviedb.org';
   String _language  = 'en'; 
-
-  int _popularesPage  = 0;
-  bool _cargando      = false;
-
+  
   MoviesRemoteDataSourceImpl({@required this.client});
 
   @override
@@ -37,24 +34,20 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource  {
   }
 
   @override
-  Future<List<MovieModel>> getPopularesMovies() async {
-    final List<MovieModel>_pelis = new List();
-    if (_cargando) return [];
-
-    _cargando = true;
-    _popularesPage++;
+  Future<List<MovieModel>> getPopularesMovies(int page) async {
+    final List<MovieModel> _pelis = new List();
+    
     final url = Uri.https(_url, '3/movie/popular',{
       'api_key'   : _apikey,
       'language'  : _language,
-      'page'      : _popularesPage.toString()
+      'page'      : page.toString()
     });
-    final resp = await client.get(url);
+    final resp =  await client.get(url);
     final decodedData = json.decode(resp.body);
     var pelis = decodedData['results'];
     for(var item in pelis){
       _pelis.add(MovieModel.fromJsonMap(item));
     }
-    _cargando = false;
     return _pelis;
   }
 

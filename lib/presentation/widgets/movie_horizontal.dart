@@ -1,30 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prueba_gbp/data/models/movie_model.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:prueba_gbp/domain/entities/movie_entity.dart';
+// import 'package:prueba_gbp/presentation/blocs/popular_movies_bloc/popular_movies_cubit.dart';
 
-class MovieHorizontal extends StatelessWidget {
+class MovieHorizontal extends StatefulWidget {
 
-  final List<MovieModel> peliculas;
-  final  siguientePagina;
+  final List<MovieEntity> peliculas;
+  final  Function() siguientePagina;
 
   MovieHorizontal({@required this.peliculas,  this.siguientePagina});
+
+  @override
+  _MovieHorizontalState createState() => _MovieHorizontalState();
+}
+
+class _MovieHorizontalState extends State<MovieHorizontal> {
   final _pageController = new PageController(
     initialPage: 1,
-    viewportFraction: 0.3
+    viewportFraction: 0.5
   );
 
+  @override
+  void initState() {
+    // BlocProvider.of<PopularMoviesCubit>(context).getPopularMovies();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
     final _screenSize = MediaQuery.of(context).size;
     _pageController.addListener((){
-      if (_pageController.position.pixels >= _pageController.position.maxScrollExtent){
-        siguientePagina();
+      if (_pageController.position.pixels >= _pageController.position.maxScrollExtent ){
+        widget.siguientePagina();
+        // context.bloc<PopularMoviesCubit>().isFetching=true;
+        // context.bloc<PopularMoviesCubit>().getPopularMovies();
       }
       if ( _pageController.position.pixels <= _pageController.position.minScrollExtent+80) {
          _pageController.position.animateTo(
-          _screenSize.width * 0.3,
+          _screenSize.width * 0.2,
           duration: Duration(milliseconds: 600),
           curve: Curves.linearToEaseOut,
         );
@@ -34,13 +50,12 @@ class MovieHorizontal extends StatelessWidget {
 
     return Container(
       height: _screenSize.height*0.3,
-      width: double.infinity,
       child: PageView.builder(
         pageSnapping: false,
         controller: _pageController,
-        itemCount: peliculas.length,
+        itemCount: widget.peliculas.length,
         itemBuilder: (context, i){
-          return _tarjeta(context, peliculas[i] );
+          return _tarjeta(context, widget.peliculas[i] );
         },
         // children: _tarjetas(context)
       ) ,
@@ -51,7 +66,6 @@ class MovieHorizontal extends StatelessWidget {
 
     //pelicula.uniqueID = '${pelicula.id}-poster';
     double rat = (pelicula.voteAverage*10) * 5/100;
-    print(rat);
     return  GestureDetector(
       onTap: (){
         timeDilation = 1.5;
@@ -69,6 +83,7 @@ class MovieHorizontal extends StatelessWidget {
                   placeholder: AssetImage('assets/img/no-image.jpg'),
                   fit: BoxFit.cover,
                   height: 160.0,
+                  width: 200,
                 ),
               ),
               SizedBox(height: 7.0),

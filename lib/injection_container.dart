@@ -7,17 +7,25 @@ import 'package:prueba_gbp/data/repositories/movies_repository_impl.dart';
 import 'package:prueba_gbp/domain/repositories/movies_repository.dart';
 import 'package:prueba_gbp/domain/usecases/get_populares_movies.dart';
 import 'package:prueba_gbp/domain/usecases/get_top_rated_movies.dart';
-import 'package:prueba_gbp/presentation/blocs/home_bloc/home_cubit.dart';
+import 'package:prueba_gbp/presentation/blocs/bloc/popular_movies_bloc.dart';
+import 'package:prueba_gbp/presentation/blocs/top_rated_movies_bloc/top_rated_movies_cubit.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
 
   //Futures bloc 
-  sl.registerFactory<HomeCubit>(() => HomeCubit(
+  // sl.registerFactory<PopularMoviesCubit>(() => PopularMoviesCubit(
+  //   getPopularesMoviesUseCase: sl.call(),
+  // ));
+  sl.registerFactory<PopularMoviesBloc>(() => PopularMoviesBloc(
     getPopularesMoviesUseCase: sl.call(),
-    getTopRatedMoviesUseCase: sl.call()
   ));
+
+  sl.registerFactory<TopRatedMoviesCubit>(() => TopRatedMoviesCubit(
+    getTopRatedMoviesUseCase: sl.call(),
+  ));
+
 
   //use cases
   sl.registerLazySingleton<GetPopularesMoviesUseCase>(() => GetPopularesMoviesUseCase(repository: sl.call()));

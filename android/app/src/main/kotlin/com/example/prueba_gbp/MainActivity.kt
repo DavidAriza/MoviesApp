@@ -1,4 +1,4 @@
-package com.example.prueba_gbp
+package com.example.moviesdatabase
 
 import io.flutter.embedding.android.FlutterActivity
 
